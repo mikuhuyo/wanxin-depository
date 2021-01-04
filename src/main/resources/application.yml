@@ -1,0 +1,22 @@
+server:
+  port: 53020
+
+spring:
+  application:
+    name: wanxin-depository
+  main:
+    allow-bean-definition-overriding: true
+    banner-mode: 'off'
+
+app:
+  id: wanxin-depository
+apollo:
+  meta: http://192.168.158.162:8080
+  bootstrap:
+    enabled: true
+    eagerLoad:
+      enabled: true
+    namespaces: application,micro_service.spring-boot-druid,micro_service.spring-boot-http,micro_service.spring-freemarker,micro_service.mybatis-plus,micro_service.spring-rocketmq
+
+logging:
+  config: classpath:log4j2-dev.xml
