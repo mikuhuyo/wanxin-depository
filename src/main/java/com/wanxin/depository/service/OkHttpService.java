@@ -1,6 +1,6 @@
 package com.wanxin.depository.service;
 
-import com.wanxin.depository.common.util.EncryptUtil;
+import com.wanxin.depository.common.utils.EncryptUtil;
 import com.wanxin.depository.interceptor.OKHttpSignatureInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;

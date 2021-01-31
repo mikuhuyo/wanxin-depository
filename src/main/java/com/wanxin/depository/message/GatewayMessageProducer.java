@@ -29,20 +29,17 @@ public class GatewayMessageProducer {
     private RocketMQTemplate rocketMQTemplate;
 
     public void personalRegister(String appCode, PersonalRegisterResponse response) {
-        Message<?> message = MessageBuilder.withPayload(JSON.toJSONString(response))
-                .setHeader(MessageConst.PROPERTY_KEYS, appCode).build();
+        Message<?> message = MessageBuilder.withPayload(JSON.toJSONString(response)).setHeader(MessageConst.PROPERTY_KEYS, appCode).build();
         rocketMQTemplate.convertAndSend("TP_GATEWAY_NOTIFY:PERSONAL_REGISTER", message);
     }
 
     public void recharge(String appCode, RechargeResponse response) {
-        Message<?> message = MessageBuilder.withPayload(JSON.toJSONString(response))
-                .setHeader(MessageConst.PROPERTY_KEYS, appCode).build();
+        Message<?> message = MessageBuilder.withPayload(JSON.toJSONString(response)).setHeader(MessageConst.PROPERTY_KEYS, appCode).build();
         rocketMQTemplate.convertAndSend("TP_GATEWAY_NOTIFY:RECHARGE", message);
     }
 
     public void withdraw(String appCode, WithdrawResponse response) {
-        Message<?> message = MessageBuilder.withPayload(JSON.toJSONString(response))
-                .setHeader(MessageConst.PROPERTY_KEYS, appCode).build();
+        Message<?> message = MessageBuilder.withPayload(JSON.toJSONString(response)).setHeader(MessageConst.PROPERTY_KEYS, appCode).build();
         rocketMQTemplate.convertAndSend("TP_GATEWAY_NOTIFY:WITHDRAW", message);
     }
 

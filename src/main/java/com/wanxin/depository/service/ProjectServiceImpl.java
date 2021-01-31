@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wanxin.depository.common.constant.ProjectStatusCode;
-import com.wanxin.depository.common.util.EncryptUtil;
+import com.wanxin.depository.common.utils.EncryptUtil;
 import com.wanxin.depository.entity.Project;
 import com.wanxin.depository.mapper.ProjectMapper;
 import com.wanxin.depository.model.CreateProjectRequest;

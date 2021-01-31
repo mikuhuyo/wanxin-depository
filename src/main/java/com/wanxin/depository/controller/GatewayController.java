@@ -1,8 +1,9 @@
 package com.wanxin.depository.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.wanxin.depository.common.util.CommonUtil;
-import com.wanxin.depository.common.util.EncryptUtil;
+import com.wanxin.depository.common.utils.CheckBankCardUtil;
+import com.wanxin.depository.common.utils.CommonUtil;
+import com.wanxin.depository.common.utils.EncryptUtil;
 import com.wanxin.depository.entity.BankCard;
 import com.wanxin.depository.entity.DepositoryBankCard;
 import com.wanxin.depository.model.PersonalRegisterRequest;
@@ -22,8 +23,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
+
 /**
+ * <p>
  * 网关接口
+ * </p>
+ *
+ * @author yuelimin
  */
 @Slf4j
 @Controller
@@ -31,8 +38,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class GatewayController {
 
     @Autowired
+    private CheckBankCardUtil checkBankCardUtil;
+    @Autowired
     private BankCardService bankCardService;
-
     @Autowired
     private UserService userService;
 
@@ -41,22 +49,17 @@ public class GatewayController {
             @ApiImplicitParam(name = "serviceName", value = "接口名称", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "platformNo", value = "接入平台编号", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "signature", value = "针对请求数据reqData的签名", required = true, dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "reqData", value = "业务数据报文，JSON 格式", required = true, dataType = "String", paramType = "query"),})
+            @ApiImplicitParam(name = "reqData", value = "业务数据报文, JSON 格式", required = true, dataType = "String", paramType = "query"),})
     @RequestMapping(value = "/gateway", method = RequestMethod.GET, params = "serviceName=PERSONAL_REGISTER")
-    public ModelAndView create(@RequestParam("serviceName") String serviceName,
-                               @RequestParam("platformNo") String platformNo, @RequestParam("signature") String signature,
-                               @RequestParam("reqData") String reqData) {
+    public ModelAndView create(@RequestParam("serviceName") String serviceName, @RequestParam("platformNo") String platformNo, @RequestParam("signature") String signature, @RequestParam("reqData") String reqData) throws IOException {
         String decodeReqData = EncryptUtil.decodeUTF8StringBase64(reqData);
         PersonalRegisterRequest registerRequest = JSON.parseObject(decodeReqData, PersonalRegisterRequest.class);
         registerRequest.setAppCode(platformNo);
         registerRequest.setRole("B");
-        //获取银行卡信息
-        BankCard bankCard = bankCardService.getByCardNumber(registerRequest.getCardNumber());
-        if (bankCard != null) {
-            registerRequest.setBankName(bankCard.getBankName());
-            registerRequest.setBankCode(bankCard.getBankCode());
-        }
-        log.debug("开户数据：{}", JSON.toJSONString(registerRequest));
+        String[] info = checkBankCardUtil.checkBankCard(registerRequest.getCardNumber()).split("-");
+        registerRequest.setBankCode(info[0]);
+        registerRequest.setBankName(info[1]);
+        log.debug("开户数据: {}", JSON.toJSONString(registerRequest));
 
         ModelAndView modelAndView = new ModelAndView("create");
         modelAndView.addObject("consumer", registerRequest);
@@ -68,23 +71,21 @@ public class GatewayController {
             @ApiImplicitParam(name = "serviceName", value = "接口名称", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "platformNo", value = "接入平台编号", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "signature", value = "针对请求数据reqData的签名", required = true, dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "reqData", value = "业务数据报文，JSON 格式", required = true, dataType = "String", paramType = "query"),})
+            @ApiImplicitParam(name = "reqData", value = "业务数据报文, JSON 格式", required = true, dataType = "String", paramType = "query"),})
     @RequestMapping(value = "/gateway", method = RequestMethod.GET, params = "serviceName=RECHARGE")
-    public ModelAndView recharge(@RequestParam("serviceName") String serviceName,
-                                 @RequestParam("platformNo") String platformNo, @RequestParam("signature") String signature,
-                                 @RequestParam("reqData") String reqData) {
+    public ModelAndView recharge(@RequestParam("serviceName") String serviceName, @RequestParam("platformNo") String platformNo, @RequestParam("signature") String signature, @RequestParam("reqData") String reqData) {
         String decodeReqData = EncryptUtil.decodeUTF8StringBase64(reqData);
         RechargeRequest rechargeRequest = JSON.parseObject(decodeReqData, RechargeRequest.class);
         rechargeRequest.setAppCode(platformNo);
 
-        //获取存管系统绑定银行卡信息
+        // 获取存管系统绑定银行卡信息
         DepositoryBankCard bankCard = userService.getDepositoryBankCardByUserNo(rechargeRequest.getUserNo());
         rechargeRequest.setBankCode(bankCard.getBankCode());
         rechargeRequest.setBankName(bankCard.getBankName());
         rechargeRequest.setCardNumber(bankCard.getCardNumber());
         rechargeRequest.setMobile(bankCard.getMobile().replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2"));
         rechargeRequest.setMobile(CommonUtil.hiddenMobile(bankCard.getMobile()));
-        log.debug("充值数据：{}", JSON.toJSONString(rechargeRequest));
+        log.debug("充值数据: {}", JSON.toJSONString(rechargeRequest));
 
         ModelAndView modelAndView = new ModelAndView("recharge");
         modelAndView.addObject("recharge", rechargeRequest);
@@ -96,12 +97,9 @@ public class GatewayController {
             @ApiImplicitParam(name = "serviceName", value = "接口名称", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "platformNo", value = "接入平台编号", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "signature", value = "针对请求数据reqData的签名", required = true, dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "reqData", value = "业务数据报文，JSON 格式", required = true, dataType = "String", paramType = "query"),})
+            @ApiImplicitParam(name = "reqData", value = "业务数据报文, JSON 格式", required = true, dataType = "String", paramType = "query"),})
     @RequestMapping(value = "/gateway", method = RequestMethod.GET, params = "serviceName=WITHDRAW")
-    public ModelAndView withdraw(@RequestParam("serviceName") String serviceName,
-                                 @RequestParam("platformNo") String platformNo, @RequestParam("signature") String signature,
-                                 @RequestParam("reqData") String reqData) {
-
+    public ModelAndView withdraw(@RequestParam("serviceName") String serviceName, @RequestParam("platformNo") String platformNo, @RequestParam("signature") String signature, @RequestParam("reqData") String reqData) {
         String decodeReqData = EncryptUtil.decodeUTF8StringBase64(reqData);
         WithdrawRequest withdrawRequest = JSON.parseObject(decodeReqData, WithdrawRequest.class);
         withdrawRequest.setAppCode(platformNo);
@@ -113,7 +111,7 @@ public class GatewayController {
         withdrawRequest.setCardNumber(bankCard.getCardNumber());
         withdrawRequest.setMobile(bankCard.getMobile().replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2"));
 
-        log.debug("提现数据：{}", JSON.toJSONString(withdrawRequest));
+        log.debug("提现数据: {}", JSON.toJSONString(withdrawRequest));
 
         ModelAndView modelAndView = new ModelAndView("withdraw");
         modelAndView.addObject("withdraw", withdrawRequest);

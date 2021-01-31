@@ -19,6 +19,9 @@ import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+/**
+ * @author yuelimin
+ */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
     @Resource

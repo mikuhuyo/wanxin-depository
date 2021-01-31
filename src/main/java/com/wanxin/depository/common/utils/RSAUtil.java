@@ -1,4 +1,4 @@
-package com.wanxin.depository.common.util;
+package com.wanxin.depository.common.utils;
 
 import javax.crypto.Cipher;
 import java.io.ByteArrayInputStream;
@@ -97,7 +97,7 @@ public class RSAUtil {
 
         InputStream ins = new ByteArrayInputStream(decoder.decode(content));
         ByteArrayOutputStream writer = new ByteArrayOutputStream();
-        //rsa解密的字节大小最多是128，将需要解密的内容，按128位拆开解密
+        //rsa解密的字节大小最多是128, 将需要解密的内容, 按128位拆开解密
         byte[] buf = new byte[128];
         int bufl;
 
@@ -122,7 +122,7 @@ public class RSAUtil {
     /**
      * 得到私钥
      *
-     * @param key 密钥字符串（经过base64编码）
+     * @param key 密钥字符串(经过base64编码)
      * @throws Exception
      */
     public static PrivateKey getPrivateKey(String key) throws Exception {
@@ -143,7 +143,7 @@ public class RSAUtil {
     //生成密钥对
     public static KeyPair getKeyPair() throws Exception {
         KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
-        keyGen.initialize(512); //可以理解为：加密后的密文长度，实际原文要小些 越大 加密解密越慢
+        keyGen.initialize(512); //可以理解为: 加密后的密文长度, 实际原文要小些 越大 加密解密越慢
         KeyPair keyPair = keyGen.generateKeyPair();
         return keyPair;
     }

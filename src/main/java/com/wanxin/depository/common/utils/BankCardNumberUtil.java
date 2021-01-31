@@ -1,4 +1,4 @@
-package com.wanxin.depository.common.util;
+package com.wanxin.depository.common.utils;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class BankCardNumberUtil {
 
-    private static BankCardNumberUtil instance = new BankCardNumberUtil();
+    private static final BankCardNumberUtil instance = new BankCardNumberUtil();
 
     public static String get() {
         BankNameEnum[] nameEnums = BankNameEnum.values();
@@ -62,10 +62,10 @@ public class BankCardNumberUtil {
 
     /**
      * 从不含校验位的银行卡卡号采用 Luhn 校验算法获得校验位
-     * 该校验的过程：
-     * 1、从卡号最后一位数字开始，逆向将奇数位(1、3、5等等)相加。
-     * 2、从卡号最后一位数字开始，逆向将偶数位数字，先乘以2（如果乘积为两位数，则将其减去9），再求和。
-     * 3、将奇数位总和加上偶数位总和，结果应该可以被10整除。
+     * 该校验的过程:
+     * 1. 从卡号最后一位数字开始, 逆向将奇数位(1, 3, 5等等)相加.
+     * 2.从卡号最后一位数字开始, 逆向将偶数位数字, 先乘以2(如果乘积为两位数, 则将其减去9), 再求和.
+     * 3.将奇数位总和加上偶数位总和, 结果应该可以被10整除.
      */
     private int getLuhnSum(char[] chs) {
         int luhnSum = 0;

@@ -36,7 +36,11 @@ public class BalanceDetails implements Serializable {
     private String userNo;
 
     /**
-     * 账户变动类型.1.增加.2.减少.3.冻结.4解冻
+     * 账户变动类型.
+     * 1.增加.
+     * 2.减少.
+     * 3.冻结.
+     * 4.解冻.
      */
     @TableField("CHANGE_TYPE")
     private Integer changeType;

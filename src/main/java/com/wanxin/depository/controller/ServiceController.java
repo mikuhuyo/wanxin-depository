@@ -3,7 +3,7 @@ package com.wanxin.depository.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.wanxin.depository.common.constant.PreTransactionCode;
-import com.wanxin.depository.common.util.EncryptUtil;
+import com.wanxin.depository.common.utils.EncryptUtil;
 import com.wanxin.depository.model.*;
 import com.wanxin.depository.service.BalanceDetailsService;
 import com.wanxin.depository.service.ProjectService;
@@ -18,7 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * <p>
  * 直连接口
+ * </p>
+ *
+ * @author yuelimin
  */
 @RestController
 @Api(value = "银行存管系统直连接口", tags = "Service", description = "银行存管系统直连接口API")
@@ -39,7 +43,7 @@ public class ServiceController {
             @ApiImplicitParam(name = "serviceName", value = "接口名称", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "platformNo", value = "接入平台编号", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "signature", value = "针对请求数据reqData的签名", required = true, dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "reqData", value = "业务数据报文，JSON 格式", required = true, dataType = "String", paramType = "query"),})
+            @ApiImplicitParam(name = "reqData", value = "业务数据报文, JSON 格式", required = true, dataType = "String", paramType = "query"),})
     @GetMapping(value = "/service", params = "serviceName=CREATE_PROJECT")
     public DepositoryResponse<CreateProjectResponse> createProject(@RequestParam String serviceName,
                                                                    @RequestParam String platformNo, @RequestParam String signature, @RequestParam String reqData) {
@@ -53,7 +57,7 @@ public class ServiceController {
             @ApiImplicitParam(name = "serviceName", value = "接口名称", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "platformNo", value = "接入平台编号", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "signature", value = "针对请求数据reqData的签名", required = true, dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "reqData", value = "业务数据报文，JSON 格式", required = true, dataType = "String", paramType = "query"),})
+            @ApiImplicitParam(name = "reqData", value = "业务数据报文, JSON 格式", required = true, dataType = "String", paramType = "query"),})
     @GetMapping(value = "/service", params = "serviceName=MODIFY_PROJECT")
     public DepositoryResponse<ModifyProjectResponse> modifyProject(@RequestParam String serviceName,
                                                                    @RequestParam String platformNo, @RequestParam String signature, @RequestParam String reqData) {
@@ -66,7 +70,7 @@ public class ServiceController {
             @ApiImplicitParam(name = "serviceName", value = "接口名称", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "platformNo", value = "接入平台编号", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "signature", value = "针对请求数据reqData的签名", required = true, dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "reqData", value = "业务数据报文，JSON 格式", required = true, dataType = "String", paramType = "query"),})
+            @ApiImplicitParam(name = "reqData", value = "业务数据报文, JSON 格式", required = true, dataType = "String", paramType = "query"),})
     @GetMapping(value = "/service", params = "serviceName=USER_AUTO_PRE_TRANSACTION")
     public DepositoryResponse<UserAutoPreTransactionResponse> authorizeAutoPreTransaction(
             @RequestParam String serviceName, @RequestParam String platformNo, @RequestParam String signature,
@@ -105,7 +109,7 @@ public class ServiceController {
             @ApiImplicitParam(name = "serviceName", value = "接口名称", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "platformNo", value = "接入平台编号", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "signature", value = "针对请求数据reqData的签名", required = true, dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "reqData", value = "业务数据报文，JSON 格式", required = true, dataType = "String", paramType = "query"),})
+            @ApiImplicitParam(name = "reqData", value = "业务数据报文, JSON 格式", required = true, dataType = "String", paramType = "query"),})
     @GetMapping(value = "/service", params = "serviceName=CONFIRM_LOAN")
     public DepositoryResponse<ConfirmLoanResponse> confirmLoan(@RequestParam String serviceName,
                                                                @RequestParam String platformNo, @RequestParam String signature, @RequestParam String reqData) {
@@ -118,7 +122,7 @@ public class ServiceController {
             @ApiImplicitParam(name = "serviceName", value = "接口名称", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "platformNo", value = "接入平台编号", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "signature", value = "针对请求数据reqData的签名", required = true, dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "reqData", value = "业务数据报文，JSON 格式", required = true, dataType = "String", paramType = "query"),})
+            @ApiImplicitParam(name = "reqData", value = "业务数据报文, JSON 格式", required = true, dataType = "String", paramType = "query"),})
     @GetMapping(value = "/service", params = "serviceName=CONFIRM_REPAYMENT")
     public DepositoryResponse<ConfirmRepaymentResponse> confirmRepayment(@RequestParam String serviceName,
                                                                          @RequestParam String platformNo, @RequestParam String signature, @RequestParam String reqData) {

@@ -325,7 +325,7 @@ CREATE TABLE `bank_user` (
   `FULLNAME` varchar(50) NOT NULL COMMENT '真实姓名',
   `ID_NUMBER` varchar(50) DEFAULT NULL COMMENT '身份证号',
   `MOBILE` varchar(50) DEFAULT NULL COMMENT '银行预留手机号',
-  `USER_TYPE` tinyint(4) DEFAULT NULL COMMENT '用户类型,个人1or企业0，预留',
+  `USER_TYPE` tinyint(4) DEFAULT NULL COMMENT '用户类型,个人1or企业0, 预留',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8 COMMENT='银行用户信息表';
 
@@ -520,7 +520,7 @@ CREATE TABLE `request_details` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
   `APP_CODE` varchar(50) DEFAULT NULL COMMENT '应用编码',
   `REQUEST_NO` varchar(50) DEFAULT NULL,
-  `SERVICE_NAME` varchar(50) DEFAULT NULL COMMENT '请求类型:1.用户信息、2.绑卡信息',
+  `SERVICE_NAME` varchar(50) DEFAULT NULL COMMENT '请求类型:1.用户信息, 2.绑卡信息',
   `REQUEST_DATA` text,
   `RESPONSE_DATA` text,
   `STATUS` tinyint(4) DEFAULT NULL COMMENT '执行结果',
@@ -557,7 +557,7 @@ CREATE TABLE `user` (
   `ID_NUMBER` varchar(50) DEFAULT NULL COMMENT '身份证号',
   `PASSWORD` varchar(50) DEFAULT NULL COMMENT '存管支付密码',
   `MOBILE` varchar(50) DEFAULT NULL COMMENT '存管预留手机号',
-  `USER_TYPE` tinyint(4) DEFAULT NULL COMMENT '用户类型,个人or企业，预留',
+  `USER_TYPE` tinyint(4) DEFAULT NULL COMMENT '用户类型,个人or企业, 预留',
   `ROLE` varchar(50) DEFAULT NULL COMMENT '用户角色',
   `AUTH_LIST` varchar(50) DEFAULT NULL COMMENT '授权列表',
   `IS_BIND_CARD` tinyint(4) DEFAULT NULL COMMENT '是否已绑定银行卡',

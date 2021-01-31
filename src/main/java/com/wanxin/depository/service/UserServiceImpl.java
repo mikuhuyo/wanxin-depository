@@ -58,8 +58,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         response.setBankName(personalRegisterRequest.getBankName());
 
         //校验个人信息
-        BankUser bankUser = bankUserService
-                .getUser(personalRegisterRequest.getFullname(), personalRegisterRequest.getIdNumber());
+        BankUser bankUser = bankUserService.getUser(personalRegisterRequest.getFullname(), personalRegisterRequest.getIdNumber());
         if (bankUser == null) {
             throw new BusinessException(LocalReturnCode.E_200301.getDesc());
         }
@@ -93,7 +92,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
             //设置初始余额信息
             balanceDetailsService.addForPersonalRegister(
-                    new BalanceDetails().setUserNo(user.getUserNo()).setAppCode(personalRegisterRequest.getAppCode())
+                    new BalanceDetails()
+                            .setUserNo(user.getUserNo())
+                            .setAppCode(personalRegisterRequest.getAppCode())
                             .setRequestContent(JSON.toJSONString(personalRegisterRequest)));
 
             //更新处理结果

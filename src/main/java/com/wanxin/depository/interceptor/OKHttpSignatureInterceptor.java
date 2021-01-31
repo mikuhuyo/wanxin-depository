@@ -1,7 +1,7 @@
 package com.wanxin.depository.interceptor;
 
-import com.wanxin.depository.common.util.EncryptUtil;
-import com.wanxin.depository.common.util.RSAUtil;
+import com.wanxin.depository.common.utils.EncryptUtil;
+import com.wanxin.depository.common.utils.RSAUtil;
 import com.wanxin.depository.service.ConfigService;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Interceptor;
@@ -17,9 +17,8 @@ import java.net.URLEncoder;
  * <p>
  * okHttp3拦截器, 用于数据签名及验签
  * </p>
- * <p>
- * * @author yuelimin
  *
+ * @author yuelimin
  * @since 1.8
  */
 @Slf4j

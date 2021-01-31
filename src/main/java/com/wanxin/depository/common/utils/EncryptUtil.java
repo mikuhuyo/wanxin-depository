@@ -1,4 +1,4 @@
-package com.wanxin.depository.common.util;
+package com.wanxin.depository.common.utils;
 
 import lombok.extern.slf4j.Slf4j;
 

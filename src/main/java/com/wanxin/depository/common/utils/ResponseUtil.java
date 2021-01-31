@@ -1,4 +1,4 @@
-package com.wanxin.depository.common.util;
+package com.wanxin.depository.common.utils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

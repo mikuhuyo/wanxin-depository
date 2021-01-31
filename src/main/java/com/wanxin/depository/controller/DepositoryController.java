@@ -4,7 +4,7 @@ import com.wanxin.depository.common.constant.AuditStatusCode;
 import com.wanxin.depository.common.constant.TransactionStatusCode;
 import com.wanxin.depository.common.domain.BusinessException;
 import com.wanxin.depository.common.domain.PageVO;
-import com.wanxin.depository.common.util.EncryptUtil;
+import com.wanxin.depository.common.utils.EncryptUtil;
 import com.wanxin.depository.model.*;
 import com.wanxin.depository.service.*;
 import io.swagger.annotations.Api;
@@ -31,22 +31,16 @@ import java.math.BigDecimal;
 @RestController
 @Api(value = "银行存管系统API", tags = "Depository", description = "银行存管系统API")
 public class DepositoryController {
-
     @Autowired
     private BankCardService bankCardService;
-
     @Autowired
     private UserService userService;
-
     @Autowired
     private BalanceDetailsService balanceDetailsService;
-
     @Autowired
     private RechargeDetailsService rechargeDetailsService;
-
     @Autowired
     private WithdrawDetailsService withdrawDetailsService;
-
 
     @ApiOperation("获取手机验证码")
     @ApiImplicitParam(name = "mobile", value = "手机号", required = true, dataType = "String")
@@ -86,9 +80,7 @@ public class DepositoryController {
             @ApiImplicitParam(name = "sortBy", value = "排序字段", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "order", value = "顺序", dataType = "String", paramType = "query")})
     @PostMapping("/bank-cards/q")
-    public LocalResponse<PageVO<BankCardDTO>> queryBankCards(@RequestBody BankCardQuery bankCardQuery,
-                                                             @RequestParam Integer pageNo, @RequestParam Integer pageSize, @RequestParam String sortBy,
-                                                             @RequestParam String order) {
+    public LocalResponse<PageVO<BankCardDTO>> queryBankCards(@RequestBody BankCardQuery bankCardQuery, @RequestParam Integer pageNo, @RequestParam Integer pageSize, @RequestParam String sortBy, @RequestParam String order) {
         PageVO<BankCardDTO> pageVO = bankCardService.queryBankCards(bankCardQuery, pageNo, pageSize, sortBy, order);
         return LocalResponse.success(pageVO);
     }
@@ -114,8 +106,7 @@ public class DepositoryController {
             code = 2;
             msg = e.getMessage();
         }
-        return new ModelAndView(
-                "redirect:" + addRedirectAttributes(personalRegisterRequest.getCallbackUrl(), code, msg));
+        return new ModelAndView("redirect:" + addRedirectAttributes(personalRegisterRequest.getCallbackUrl(), code, msg));
     }
 
     @ApiOperation("用户充值")

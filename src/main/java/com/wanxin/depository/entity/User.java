@@ -57,7 +57,7 @@ public class User implements Serializable {
     private String mobile;
 
     /**
-     * 用户类型,个人or企业，预留
+     * 用户类型,个人or企业, 预留
      */
     @TableField("USER_TYPE")
     private Integer userType;

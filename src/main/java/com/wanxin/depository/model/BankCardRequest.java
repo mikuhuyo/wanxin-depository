@@ -30,7 +30,7 @@ public class BankCardRequest implements Serializable {
     @ApiModelProperty(value = "银行预留手机号")
     private String mobile;
 
-    @ApiModelProperty(value = "用户类型,个人or企业，预留")
+    @ApiModelProperty(value = "用户类型,个人or企业, 预留")
     private Integer userType;
 
     @ApiModelProperty(value = "银行编码")

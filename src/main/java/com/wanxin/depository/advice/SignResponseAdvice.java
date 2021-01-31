@@ -2,7 +2,7 @@ package com.wanxin.depository.advice;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.wanxin.depository.common.util.RSAUtil;
+import com.wanxin.depository.common.utils.RSAUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.MethodParameter;

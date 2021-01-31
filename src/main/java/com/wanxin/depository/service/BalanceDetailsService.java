@@ -29,7 +29,7 @@ public interface BalanceDetailsService extends IService<BalanceDetails> {
      *
      * @param userNo
      * @param freezeAmount
-     * @param response     若为null则余额充足，否则返回异常response
+     * @param response     若为null则余额充足, 否则返回异常response
      * @return
      */
     UserAutoPreTransactionResponse verifyEnough(String userNo, BigDecimal freezeAmount, UserAutoPreTransactionResponse response);
@@ -94,7 +94,7 @@ public interface BalanceDetailsService extends IService<BalanceDetails> {
     Boolean addForPersonalRegister(BalanceDetails balanceDetails);
 
     /**
-     * 还款确认：预处理冻结金额
+     * 还款确认: 预处理冻结金额
      *
      * @param preTransactionRequest
      * @return

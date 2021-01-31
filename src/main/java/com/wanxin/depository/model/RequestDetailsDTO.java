@@ -28,7 +28,7 @@ public class RequestDetailsDTO implements Serializable {
 
     private String requestNo;
 
-    @ApiModelProperty(value = "请求类型:1.用户信息、2.绑卡信息")
+    @ApiModelProperty(value = "请求类型:1.用户信息, 2.绑卡信息")
     private String serviceName;
 
     private String requestData;

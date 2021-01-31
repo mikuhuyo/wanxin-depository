@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wanxin.depository.common.constant.BalanceChangeCode;
 import com.wanxin.depository.common.domain.BusinessException;
 import com.wanxin.depository.common.domain.RemoteReturnCode;
-import com.wanxin.depository.common.util.EncryptUtil;
+import com.wanxin.depository.common.utils.EncryptUtil;
 import com.wanxin.depository.entity.BalanceDetails;
 import com.wanxin.depository.entity.Project;
 import com.wanxin.depository.mapper.BalanceDetailsMapper;
@@ -122,7 +122,7 @@ public class BalanceDetailsServiceImpl extends ServiceImpl<BalanceDetailsMapper,
         newBalanceDetails.setAmount(rechargeRequest.getAmount());
         //冻结金额
         newBalanceDetails.setFreezeAmount(balanceDetails.getFreezeAmount());
-        //可用余额：添加充值金额
+        //可用余额: 添加充值金额
         newBalanceDetails.setBalance(balanceDetails.getBalance().add(rechargeRequest.getAmount()));
         return save(newBalanceDetails);
     }
@@ -143,7 +143,7 @@ public class BalanceDetailsServiceImpl extends ServiceImpl<BalanceDetailsMapper,
         newBalanceDetails.setAmount(withDrawRequest.getAmount());
         //冻结金额
         newBalanceDetails.setFreezeAmount(balanceDetails.getFreezeAmount());
-        //可用余额：扣除提现金额
+        //可用余额: 扣除提现金额
         newBalanceDetails.setBalance(balanceDetails.getBalance().subtract(withDrawRequest.getAmount()));
         return save(newBalanceDetails);
     }

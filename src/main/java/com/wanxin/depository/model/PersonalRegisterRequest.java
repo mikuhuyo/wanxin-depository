@@ -35,7 +35,7 @@ public class PersonalRegisterRequest extends BaseRequest {
     @ApiModelProperty("角色")
     private String role;
 
-    @ApiModelProperty(value = "用户类型,个人or企业，预留")
+    @ApiModelProperty(value = "用户类型,个人or企业, 预留")
     private Integer userType;
 
     @ApiModelProperty(value = "授权列表")

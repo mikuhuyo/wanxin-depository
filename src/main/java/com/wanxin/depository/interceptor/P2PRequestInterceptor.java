@@ -2,9 +2,9 @@ package com.wanxin.depository.interceptor;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.wanxin.depository.common.util.EncryptUtil;
-import com.wanxin.depository.common.util.RSAUtil;
-import com.wanxin.depository.common.util.ResponseUtil;
+import com.wanxin.depository.common.utils.EncryptUtil;
+import com.wanxin.depository.common.utils.RSAUtil;
+import com.wanxin.depository.common.utils.ResponseUtil;
 import com.wanxin.depository.entity.RequestDetails;
 import com.wanxin.depository.service.RequestDetailsService;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * <P>
- * 统一拦截P2P平台请求信息，并保存记录
+ * 统一拦截P2P平台请求信息, 并保存记录
  * </p>
  *
  * @author yuelimin
@@ -35,8 +35,7 @@ public class P2PRequestInterceptor implements HandlerInterceptor {
     private RequestDetailsService requestDetailsService;
 
     @Override
-    public boolean preHandle(HttpServletRequest httpRequest, HttpServletResponse httpResponse, Object handler)
-            throws Exception {
+    public boolean preHandle(HttpServletRequest httpRequest, HttpServletResponse httpResponse, Object handler) throws Exception {
         String serviceName = httpRequest.getParameter("serviceName");
         String platformNo = httpRequest.getParameter("platformNo");
         String reqData = EncryptUtil.decodeUTF8StringBase64(httpRequest.getParameter("reqData"));
@@ -44,7 +43,7 @@ public class P2PRequestInterceptor implements HandlerInterceptor {
         String requestNo = reqDataJSONObj.getString("requestNo");
 
         RequestDetails requestDetails = requestDetailsService.getByRequestNo(requestNo);
-        //如果请求为直连模式，且请求已被处理，直接返回处理结果
+        //如果请求为直连模式, 且请求已被处理, 直接返回处理结果
         if (requestDetails != null && httpRequest.getRequestURI().endsWith("/service")) {
             JSONObject responseJSON = new JSONObject();
             responseJSON.put("respData", JSON.parseObject(requestDetails.getResponseData()));

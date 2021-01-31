@@ -39,7 +39,7 @@ public class UserDTO implements Serializable {
     @ApiModelProperty(value = "存管预留手机号")
     private String mobile;
 
-    @ApiModelProperty(value = "用户类型,个人or企业，预留")
+    @ApiModelProperty(value = "用户类型,个人or企业, 预留")
     private Integer userType;
 
     @ApiModelProperty(value = "用户角色")

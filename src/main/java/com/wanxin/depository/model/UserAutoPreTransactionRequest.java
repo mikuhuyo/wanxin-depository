@@ -28,7 +28,7 @@ public class UserAutoPreTransactionRequest extends BaseRequest {
     @ApiModelProperty("标的号")
     private String projectNo;
 
-    @ApiModelProperty("债权出让流水号，购买债权时需填此参数")
+    @ApiModelProperty("债权出让流水号, 购买债权时需填此参数")
     private String creditsaleRequestNo;
 
 }

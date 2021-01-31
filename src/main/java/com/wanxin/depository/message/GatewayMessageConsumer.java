@@ -37,7 +37,7 @@ public class GatewayMessageConsumer {
     public GatewayMessageConsumer(@Value("${rocketmq.name-server}") String mqNameServer) throws MQClientException {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(CONSUMER_GROUP);
         consumer.setNamesrvAddr(mqNameServer);
-        // 消费策略：设置消费地点,从最后一个进行消费
+        // 消费策略: 设置消费地点,从最后一个进行消费
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
         // 订阅主题的哪些标签
         consumer.subscribe("TP_GATEWAY_NOTIFY", "*");
@@ -54,8 +54,7 @@ public class GatewayMessageConsumer {
                 String appCode = jsonBody.getJSONObject("headers").getString("KEYS");
                 //获取消息返回主题内容
                 String response = jsonBody.getString("payload");
-                String result = okHttpService
-                        .sendHttpGet(configService.getP2PNotifyUrl(appCode), tags, appCode, response);
+                String result = okHttpService.sendHttpGet(configService.getP2PNotifyUrl(appCode), tags, appCode, response);
                 log.info("Receive Message: Result({}),KEYS({}),Tags({}),Body({})", result, appCode, tags, response);
                 if ("OK".equals(result)) {
                     return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
