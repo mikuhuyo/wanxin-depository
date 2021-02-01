@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
  * @since 1.8
  */
 @Configuration
-@MapperScan("com.wanxin.depository.**.mapper")
+@MapperScan("com.wanxin.**.mapper")
 public class MybatisPlusConfig {
 
     /**
