@@ -21,6 +21,8 @@ import java.nio.charset.StandardCharsets;
  * <P>
  * 开户网关接口通知回调消息消费者
  * </p>
+ *
+ * @author yuelimin
  */
 @Slf4j
 @Component

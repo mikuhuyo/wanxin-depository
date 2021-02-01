@@ -35,7 +35,8 @@ public class LocalRequestInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest httpRequest, HttpServletResponse httpResponse, Object handler) throws Exception {
-        RequestDetails requestDetails = requestDetailsService.getByRequestNo(httpRequest.getParameter("requestNo"));
+        String requestNo = httpRequest.getParameter("requestNo");
+        RequestDetails requestDetails = requestDetailsService.getByRequestNo(requestNo);
         //请求已被处理, 直接返回处理结果
         if (requestDetails != null && StringUtils.isNotBlank(requestDetails.getResponseData())) {
             JSONObject responseJSON = new JSONObject();
