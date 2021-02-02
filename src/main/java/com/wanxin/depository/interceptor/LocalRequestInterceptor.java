@@ -35,14 +35,13 @@ public class LocalRequestInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest httpRequest, HttpServletResponse httpResponse, Object handler) throws Exception {
-        String requestNo = httpRequest.getParameter("requestNo");
-        RequestDetails requestDetails = requestDetailsService.getByRequestNo(requestNo);
-        //请求已被处理, 直接返回处理结果
+        RequestDetails requestDetails = requestDetailsService.getByRequestNo(httpRequest.getParameter("requestNo"));
+        // 请求已被处理, 直接返回处理结果
         if (requestDetails != null && StringUtils.isNotBlank(requestDetails.getResponseData())) {
-            JSONObject responseJSON = new JSONObject();
-            responseJSON.put("respData", JSON.parseObject(requestDetails.getResponseData()));
-            responseJSON.put("signature", RSAUtil.sign(requestDetails.getResponseData(), depositoryPrivateKey, "utf-8"));
-            ResponseUtil.responseOut(httpResponse, responseJSON.toJSONString());
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("respData", JSON.parseObject(requestDetails.getResponseData()));
+            jsonObject.put("signature", RSAUtil.sign(requestDetails.getResponseData(), depositoryPrivateKey, "utf-8"));
+            ResponseUtil.responseOut(httpResponse, jsonObject.toJSONString());
             return false;
         }
 
