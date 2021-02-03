@@ -1,6 +1,8 @@
 package com.wanxin.depository.common.utils;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wanxin.depository.common.domain.BusinessException;
+import com.wanxin.depository.common.domain.LocalReturnCode;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -283,6 +285,8 @@ public class CheckBankCardUtil {
             } else if ("MABDA".equals(this.bankCode)) {
                 this.bankName = "澳门BDA";
             }
+        } else {
+            throw new BusinessException(LocalReturnCode.E_200103);
         }
 
         return this.bankCode + "-" + this.bankName;
