@@ -8,4 +8,4 @@
 
 ### API说明
 
-系统已经继承了`swagger`接口文档, 在线地址: http://127.0.0.1:53020/depository/swagger-ui.html
+系统已经集成了`swagger`接口文档, 在线地址: http://127.0.0.1:53020/depository/swagger-ui.html
