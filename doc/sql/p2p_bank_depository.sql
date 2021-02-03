@@ -34,7 +34,7 @@ CREATE TABLE `bank_card` (
   `CARD_NUMBER` varchar(50) DEFAULT NULL COMMENT '银行卡号',
   `PASSWORD` varchar(50) DEFAULT NULL COMMENT '银行卡密码',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8 COMMENT='银行用户银行卡信息';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='银行用户银行卡信息';
 
 -- ----------------------------
 -- Table structure for bank_card_details
@@ -48,7 +48,7 @@ CREATE TABLE `bank_card_details` (
   `BALANCE` decimal(10,2) DEFAULT NULL COMMENT '当前余额',
   `CREATE_DATE` datetime DEFAULT NULL COMMENT '账户变动时间',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=156 DEFAULT CHARSET=utf8 COMMENT='银行卡明细';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='银行卡明细';
 
 -- ----------------------------
 -- Table structure for bank_user
@@ -61,7 +61,7 @@ CREATE TABLE `bank_user` (
   `MOBILE` varchar(50) DEFAULT NULL COMMENT '银行预留手机号',
   `USER_TYPE` tinyint(4) DEFAULT NULL COMMENT '用户类型,个人1or企业0, 预留',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8 COMMENT='银行用户信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='银行用户信息表';
 
 -- ----------------------------
 -- Table structure for claim
