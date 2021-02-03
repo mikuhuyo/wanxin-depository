@@ -1,11 +1,15 @@
 package com.wanxin.depository.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.wanxin.depository.common.domain.BusinessException;
+import com.wanxin.depository.common.domain.LocalReturnCode;
 import com.wanxin.depository.entity.BankUser;
 import com.wanxin.depository.mapper.BankUserMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -17,11 +21,19 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-public class BankUserServiceImpl extends ServiceImpl<BankUserMapper, BankUser> implements BankUserService {
+public class BankUserServiceImpl implements BankUserService {
+    @Autowired
+    private BankUserMapper bankUserMapper;
 
     @Override
-    public BankUser getUser(String fullname, String idNumber) {
-        return getOne(new QueryWrapper<BankUser>().lambda().eq(BankUser::getFullname, fullname)
-                .eq(BankUser::getIdNumber, idNumber), false);
+    public BankUser getUser(String mobile, String idNumber) {
+        return bankUserMapper.selectOne(new LambdaQueryWrapper<BankUser>().eq(BankUser::getMobile, mobile).eq(BankUser::getIdNumber, idNumber));
+    }
+
+    @Override
+    public void createUser(BankUser bankUser) {
+        if (getUser(bankUser.getMobile(), bankUser.getIdNumber()) == null) {
+            bankUserMapper.insert(bankUser);
+        }
     }
 }

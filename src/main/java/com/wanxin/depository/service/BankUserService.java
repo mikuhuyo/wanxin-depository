@@ -11,15 +11,20 @@ import com.wanxin.depository.entity.BankUser;
  * @author yuelimin
  * @since 1.8
  */
-public interface BankUserService extends IService<BankUser> {
-
+public interface BankUserService {
     /**
-     * 根据姓名和ID获取用户信息
+     * 根据手机号和ID获取用户信息
      *
-     * @param fullname 姓名
+     * @param mobile 手机号
      * @param idNumber 身份证号
      * @return
      */
-    BankUser getUser(String fullname, String idNumber);
+    BankUser getUser(String mobile, String idNumber);
 
+    /**
+     * 新增账户信息
+     *
+     * @param bankUser 用户银行卡信息
+     */
+    void createUser(BankUser bankUser);
 }

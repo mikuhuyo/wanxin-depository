@@ -47,7 +47,7 @@ public class BankUser implements Serializable {
     private String mobile;
 
     /**
-     * 用户类型,个人or企业, 预留
+     * 用户类型,1个人or0企业, 预留
      */
     @TableField("USER_TYPE")
     private Integer userType;

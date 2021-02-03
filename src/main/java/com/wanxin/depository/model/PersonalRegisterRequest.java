@@ -3,8 +3,13 @@ package com.wanxin.depository.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+/**
+ * @author yuelimin
+ */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "PersonalRegisterRequest", description = "个人绑卡注册信息")
 public class PersonalRegisterRequest extends BaseRequest {
 

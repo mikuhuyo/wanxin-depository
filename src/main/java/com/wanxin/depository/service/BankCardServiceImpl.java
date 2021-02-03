@@ -1,6 +1,7 @@
 package com.wanxin.depository.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.injector.methods.SelectOne;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -58,7 +59,7 @@ public class BankCardServiceImpl extends ServiceImpl<BankCardMapper, BankCard> i
             bankUser = new BankUser();
             BeanUtils.copyProperties(bankCardRequest, bankUser);
             bankUser.setUserType(1);
-            bankUserService.save(bankUser);
+            bankUserService.createUser(bankUser);
         }
 
         BankCard bankCard = getByCardNumber(bankCardRequest.getCardNumber());
@@ -123,7 +124,7 @@ public class BankCardServiceImpl extends ServiceImpl<BankCardMapper, BankCard> i
 
     @Override
     public Boolean verify(BankCard bankCard) {
-        return count(new QueryWrapper<>(bankCard)) > 0;
+        return getOne(new QueryWrapper<>(bankCard).lambda().eq(BankCard::getCardNumber, bankCard.getCardNumber()).eq(BankCard::getUserId, bankCard.getUserId())) == null;
     }
 
     @Override

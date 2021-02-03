@@ -57,30 +57,35 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         response.setBankCode(personalRegisterRequest.getBankCode());
         response.setBankName(personalRegisterRequest.getBankName());
 
-        //校验个人信息
-        BankUser bankUser = bankUserService.getUser(personalRegisterRequest.getFullname(), personalRegisterRequest.getIdNumber());
+        // 校验个人信息
+        BankUser bankUser = bankUserService.getUser(personalRegisterRequest.getMobile(), personalRegisterRequest.getIdNumber());
         if (bankUser == null) {
             throw new BusinessException(LocalReturnCode.E_200301.getDesc());
         }
 
-        //校验银行实体卡
+        // 校验银行实体卡
         BankCard bankCard = new BankCard();
         bankCard.setUserId(bankUser.getId());
         bankCard.setBankCode(personalRegisterRequest.getBankCode());
+        bankCard.setBankName(personalRegisterRequest.getBankName());
         bankCard.setCardNumber(personalRegisterRequest.getCardNumber());
+        bankCard.setPassword(personalRegisterRequest.getPassword());
         if (!bankCardService.verify(bankCard)) {
             throw new BusinessException(LocalReturnCode.E_200103);
         }
+        bankCardService.save(bankCard);
 
         try {
-            //保存开户信息
+            // 保存开户信息
             User user = new User();
             BeanUtils.copyProperties(personalRegisterRequest, user);
             user.setIsBindCard(1);
             user.setAuthList("ALL");
+            // 用户类型默认为个人
+            user.setUserType(1);
             save(user);
 
-            //保存绑定银行卡信息
+            // 保存绑定银行卡信息
             bankCard = bankCardService.getByCardNumber(personalRegisterRequest.getCardNumber());
             DepositoryBankCard depositoryBankCard = new DepositoryBankCard();
             depositoryBankCard.setAppCode(personalRegisterRequest.getAppCode());
@@ -90,27 +95,26 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             depositoryBankCard.setRequestNo(user.getRequestNo());
             depositoryBankCardMapper.insert(depositoryBankCard);
 
-            //设置初始余额信息
-            balanceDetailsService.addForPersonalRegister(
-                    new BalanceDetails()
-                            .setUserNo(user.getUserNo())
-                            .setAppCode(personalRegisterRequest.getAppCode())
-                            .setRequestContent(JSON.toJSONString(personalRegisterRequest)));
+            // 设置初始余额信息
+            balanceDetailsService.addForPersonalRegister(new BalanceDetails()
+                    .setUserNo(user.getUserNo())
+                    .setAppCode(personalRegisterRequest.getAppCode())
+                    .setRequestContent(JSON.toJSONString(personalRegisterRequest)));
 
-            //更新处理结果
+            // 更新处理结果
             response.setSuccess();
             requestDetailsService.modifyGatewayByRequestNo(response);
 
-            //产生开户成功消息
+            // 产生开户成功消息
             producer.personalRegister(personalRegisterRequest.getAppCode(), response);
         } catch (Exception e) {
             log.error(e.getMessage());
 
-            //更新处理结果
+            // 更新处理结果
             response.setFailure();
             requestDetailsService.modifyGatewayByRequestNo(response);
 
-            //产生开户失败消息
+            // 产生开户失败消息
             producer.personalRegister(personalRegisterRequest.getAppCode(), response);
             throw new BusinessException(personalRegisterRequest.getRequestNo(), RemoteReturnCode.EXCEPTION);
         }
@@ -121,8 +125,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public DepositoryBankCard getDepositoryBankCardByUserNo(String userNo) {
         User user = getByUserNo(userNo);
-        return depositoryBankCardMapper.selectOne(
-                Wrappers.<DepositoryBankCard>query().lambda().eq(DepositoryBankCard::getUserId, user.getId()));
+        return depositoryBankCardMapper.selectOne(Wrappers.<DepositoryBankCard>query().lambda().eq(DepositoryBankCard::getUserId, user.getId()));
     }
 
     @Override

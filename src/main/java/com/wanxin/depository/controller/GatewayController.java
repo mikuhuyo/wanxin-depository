@@ -4,12 +4,13 @@ import com.alibaba.fastjson.JSON;
 import com.wanxin.depository.common.utils.CheckBankCardUtil;
 import com.wanxin.depository.common.utils.CommonUtil;
 import com.wanxin.depository.common.utils.EncryptUtil;
-import com.wanxin.depository.entity.BankCard;
+import com.wanxin.depository.entity.BankUser;
 import com.wanxin.depository.entity.DepositoryBankCard;
 import com.wanxin.depository.model.PersonalRegisterRequest;
 import com.wanxin.depository.model.RechargeRequest;
 import com.wanxin.depository.model.WithdrawRequest;
 import com.wanxin.depository.service.BankCardService;
+import com.wanxin.depository.service.BankUserService;
 import com.wanxin.depository.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -36,13 +37,14 @@ import java.io.IOException;
 @Controller
 @Api(value = "网关接口", tags = "Gateway", description = "网关接口API")
 public class GatewayController {
-
     @Autowired
     private CheckBankCardUtil checkBankCardUtil;
     @Autowired
     private BankCardService bankCardService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private BankUserService bankUserService;
 
     @ApiOperation("开户")
     @ApiImplicitParams({
@@ -59,6 +61,15 @@ public class GatewayController {
         String[] info = checkBankCardUtil.checkBankCard(registerRequest.getCardNumber()).split("-");
         registerRequest.setBankCode(info[0]);
         registerRequest.setBankName(info[1]);
+
+        BankUser bankUser = new BankUser();
+        bankUser.setIdNumber(registerRequest.getIdNumber());
+        bankUser.setFullname(registerRequest.getFullname());
+        bankUser.setMobile(registerRequest.getMobile());
+        // 用户类型默认为个人
+        bankUser.setUserType(1);
+        bankUserService.createUser(bankUser);
+
         log.debug("开户数据: {}", JSON.toJSONString(registerRequest));
 
         ModelAndView modelAndView = new ModelAndView("create");

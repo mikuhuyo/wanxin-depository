@@ -99,8 +99,7 @@ public class ServiceController {
             @ApiImplicitParam(name = "preRequestNo", value = "预处理业务流水号", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "amount", value = "取消金额", required = true, dataType = "String", paramType = "query")})
     @GetMapping("/l/cancel-pre-freeze")
-    public DepositoryResponse<String> cancelPreFreeze(@RequestParam String requestNo, @RequestParam String preRequestNo,
-                                                      @RequestParam String amount) {
+    public DepositoryResponse<String> cancelPreFreeze(@RequestParam String requestNo, @RequestParam String preRequestNo, @RequestParam String amount) {
         return null;
     }
 
@@ -111,8 +110,7 @@ public class ServiceController {
             @ApiImplicitParam(name = "signature", value = "针对请求数据reqData的签名", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "reqData", value = "业务数据报文, JSON 格式", required = true, dataType = "String", paramType = "query"),})
     @GetMapping(value = "/service", params = "serviceName=CONFIRM_LOAN")
-    public DepositoryResponse<ConfirmLoanResponse> confirmLoan(@RequestParam String serviceName,
-                                                               @RequestParam String platformNo, @RequestParam String signature, @RequestParam String reqData) {
+    public DepositoryResponse<ConfirmLoanResponse> confirmLoan(@RequestParam String serviceName, @RequestParam String platformNo, @RequestParam String signature, @RequestParam String reqData) {
         ConfirmLoanResponse confirmLoanResponse = tenderService.confirmLoan(reqData);
         return new DepositoryResponse<>(confirmLoanResponse);
     }
@@ -124,11 +122,8 @@ public class ServiceController {
             @ApiImplicitParam(name = "signature", value = "针对请求数据reqData的签名", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "reqData", value = "业务数据报文, JSON 格式", required = true, dataType = "String", paramType = "query"),})
     @GetMapping(value = "/service", params = "serviceName=CONFIRM_REPAYMENT")
-    public DepositoryResponse<ConfirmRepaymentResponse> confirmRepayment(@RequestParam String serviceName,
-                                                                         @RequestParam String platformNo, @RequestParam String signature, @RequestParam String reqData) {
+    public DepositoryResponse<ConfirmRepaymentResponse> confirmRepayment(@RequestParam String serviceName, @RequestParam String platformNo, @RequestParam String signature, @RequestParam String reqData) {
         ConfirmRepaymentResponse repaymentResponse = new ConfirmRepaymentResponse();
         return new DepositoryResponse<>(repaymentResponse);
     }
-
-
 }
