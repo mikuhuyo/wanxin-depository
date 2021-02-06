@@ -58,7 +58,6 @@ public class BankCardServiceImpl extends ServiceImpl<BankCardMapper, BankCard> i
         if (bankUser == null) {
             bankUser = new BankUser();
             BeanUtils.copyProperties(bankCardRequest, bankUser);
-            bankUser.setUserType(1);
             bankUserService.createUser(bankUser);
         }
 
@@ -71,10 +70,11 @@ public class BankCardServiceImpl extends ServiceImpl<BankCardMapper, BankCard> i
         bankCard.setUserId(bankUser.getId());
         save(bankCard);
 
+        BigDecimal defaultDecimal = new BigDecimal("0");
         BankCardDetails bankCardDetails = new BankCardDetails();
         bankCardDetails.setBankCardId(bankCard.getId());
-        bankCardDetails.setMoney(bankCardRequest.getBalance());
-        bankCardDetails.setBalance(bankCardRequest.getBalance());
+        bankCardDetails.setMoney(defaultDecimal);
+        bankCardDetails.setBalance(defaultDecimal);
         bankCardDetails.setChangeType(BalanceChangeCode.INCREASE.getCode());
         bankCardDetailsMapper.insert(bankCardDetails);
         return bankCard.toString();
@@ -95,8 +95,7 @@ public class BankCardServiceImpl extends ServiceImpl<BankCardMapper, BankCard> i
     }
 
     @Override
-    public PageVO<BankCardDTO> queryBankCards(BankCardQuery bankCardQuery, Integer pageNo, Integer pageSize,
-                                              String sortBy, String order) {
+    public PageVO<BankCardDTO> queryBankCards(BankCardQuery bankCardQuery, Integer pageNo, Integer pageSize, String sortBy, String order) {
         QueryWrapper<BankCard> queryWrapper = new QueryWrapper<>();
 
         if (StringUtils.isNotBlank(bankCardQuery.getCardNumber())) {

@@ -6,6 +6,7 @@ import com.wanxin.depository.common.utils.CommonUtil;
 import com.wanxin.depository.common.utils.EncryptUtil;
 import com.wanxin.depository.entity.BankUser;
 import com.wanxin.depository.entity.DepositoryBankCard;
+import com.wanxin.depository.model.BankCardRequest;
 import com.wanxin.depository.model.PersonalRegisterRequest;
 import com.wanxin.depository.model.RechargeRequest;
 import com.wanxin.depository.model.WithdrawRequest;
@@ -17,6 +18,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,17 +60,14 @@ public class GatewayController {
         PersonalRegisterRequest registerRequest = JSON.parseObject(decodeReqData, PersonalRegisterRequest.class);
         registerRequest.setAppCode(platformNo);
         registerRequest.setRole("B");
+        registerRequest.setUserType(1);
         String[] info = checkBankCardUtil.checkBankCard(registerRequest.getCardNumber()).split("-");
         registerRequest.setBankCode(info[0]);
         registerRequest.setBankName(info[1]);
 
-        BankUser bankUser = new BankUser();
-        bankUser.setIdNumber(registerRequest.getIdNumber());
-        bankUser.setFullname(registerRequest.getFullname());
-        bankUser.setMobile(registerRequest.getMobile());
-        // 用户类型默认为个人
-        bankUser.setUserType(1);
-        bankUserService.createUser(bankUser);
+        BankCardRequest bankCardRequest = new BankCardRequest();
+        BeanUtils.copyProperties(registerRequest, bankCardRequest);
+        bankCardService.createBankCard(bankCardRequest);
 
         log.debug("开户数据: {}", JSON.toJSONString(registerRequest));
 
