@@ -20,8 +20,7 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-public class RequestDetailsServiceImpl extends ServiceImpl<RequestDetailsMapper, RequestDetails>
-        implements RequestDetailsService {
+public class RequestDetailsServiceImpl extends ServiceImpl<RequestDetailsMapper, RequestDetails> implements RequestDetailsService {
 
     @Override
     public RequestDetails create(RequestDetails requestDetails) {
@@ -32,8 +31,7 @@ public class RequestDetailsServiceImpl extends ServiceImpl<RequestDetailsMapper,
 
     @Override
     public Boolean modifyByRequestNo(RequestDetails requestDetails) {
-        return update(requestDetails, new QueryWrapper<RequestDetails>().lambda()
-                .eq(RequestDetails::getRequestNo, requestDetails.getRequestNo()));
+        return update(requestDetails, new QueryWrapper<RequestDetails>().lambda().eq(RequestDetails::getRequestNo, requestDetails.getRequestNo()));
     }
 
     @Override

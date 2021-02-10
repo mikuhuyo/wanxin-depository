@@ -60,31 +60,30 @@ public class WithdrawDetailsServiceImpl extends ServiceImpl<WithdrawDetailsMappe
         save(withdrawDetails);
 
         try {
-            //增加用户实体银行卡余额
-            DepositoryBankCard depositoryBankCard = userService
-                    .getDepositoryBankCardByUserNo(withdrawRequest.getUserNo());
+            // 增加用户实体银行卡余额
+            DepositoryBankCard depositoryBankCard = userService.getDepositoryBankCardByUserNo(withdrawRequest.getUserNo());
             bankCardService.increaseBalance(depositoryBankCard.getCardNumber(), withdrawRequest.getAmount());
 
-            //减少用户在P2P平台可用余额信息
+            // 减少用户在P2P平台可用余额信息
             balanceDetailsService.withDraw(withdrawRequest);
 
-            //更新提现记录结果
+            // 更新提现记录结果
             withdrawDetails.setStatus(StatusCode.STATUS_IN.getCode());
             updateById(withdrawDetails);
 
-            //产生提现成功消息
+            // 产生提现成功消息
             response.setSuccess();
-            //producer.withdraw(withdrawRequest.getAppCode(), response);
+            producer.withdraw(withdrawRequest.getAppCode(), response);
         } catch (Exception e) {
             log.error(e.getMessage());
 
-            //更新提现记录结果
+            // 更新提现记录结果
             withdrawDetails.setStatus(StatusCode.STATUS_FAIL.getCode());
             updateById(withdrawDetails);
 
-            //产生提现成功消息
+            // 产生提现失败消息
             response.setFailure();
-            //producer.withdraw(withdrawRequest.getAppCode(), response);
+            producer.withdraw(withdrawRequest.getAppCode(), response);
             throw new BusinessException(response.getRequestNo(), RemoteReturnCode.EXCEPTION);
         }
         return response;

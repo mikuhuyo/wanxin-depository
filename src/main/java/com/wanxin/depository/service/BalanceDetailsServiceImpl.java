@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -155,20 +156,19 @@ public class BalanceDetailsServiceImpl extends ServiceImpl<BalanceDetailsMapper,
         balanceDetails.setAmount(defaultBalance);
         balanceDetails.setFreezeAmount(defaultBalance);
         balanceDetails.setBalance(defaultBalance);
+        balanceDetails.setCreateDate(LocalDateTime.now());
         return save(balanceDetails);
     }
 
     @Override
-    public UserAutoPreTransactionResponse autoPreTransactionForRepayment(
-            UserAutoPreTransactionRequest preTransactionRequest) {
+    public UserAutoPreTransactionResponse autoPreTransactionForRepayment(UserAutoPreTransactionRequest preTransactionRequest) {
         String requestNo = preTransactionRequest.getRequestNo();
         UserAutoPreTransactionResponse response = new UserAutoPreTransactionResponse();
         response.setRequestNo(requestNo);
         response.setBizType(preTransactionRequest.getBizType());
 
         // 校验用户余额是否够用
-        UserAutoPreTransactionResponse verifyResponse = verifyEnough(preTransactionRequest.getUserNo(),
-                preTransactionRequest.getAmount(), response);
+        UserAutoPreTransactionResponse verifyResponse = verifyEnough(preTransactionRequest.getUserNo(), preTransactionRequest.getAmount(), response);
         if (verifyResponse != null) {
             //返回余额不足错误信息
             return verifyResponse;
