@@ -3,13 +3,13 @@ server:
 
 spring:
   application:
-    name: wanxin-depository
+    name: depository
   main:
     allow-bean-definition-overriding: true
     banner-mode: 'off'
 
 app:
-  id: wanxin-depository
+  id: depository
 apollo:
   meta: http://192.168.158.162:8080
   bootstrap:
